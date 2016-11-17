@@ -2,6 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import play.mvc.*;
+import services.RecieveFromRabbit;
+import services.SendToRabbit;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import views.html.*;
 /**
@@ -12,7 +16,7 @@ public class HomeController extends Controller {
 
     String notification = "";
 
-    public Result receive() {
+    public Result receive() throws IOException, TimeoutException{
         JsonNode json = request().body().asJson();
         if (json == null) {
             return badRequest("Expecting Json data");
@@ -22,7 +26,9 @@ public class HomeController extends Controller {
                 notification = "Empty";
                 return badRequest("Missing parameter [message]");
             } else {
-                return ok("Your last message: " + notification);
+                SendToRabbit.setQueueName("hello");
+                SendToRabbit.send(notification);
+                return ok();
             }
         }
     }
@@ -33,7 +39,8 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() {
-        return ok("Your message: " + notification);
+    public Result index() throws IOException, java.lang.InterruptedException, TimeoutException {
+        RecieveFromRabbit.setQueueName("hello");
+        return ok("Your message: " + RecieveFromRabbit.getMessage());
     }
 }
