@@ -1,68 +1,75 @@
 package services;
 
+package rabbitmq;
+
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 
 public class Notification implements Serializable{
 
+
 	private static final long serialVersionUID = -8922509021222517613L;
 	
-	private String msg;
-	private int senderId;
-	private List<Integer> receivers;
-	private Tag tag;
-	private int importance;
+	
+	private boolean sendToGroup;
+	private int senderId;				
+	private int receiver;
+	private String tag;
+	private int priority;
+	private String msg;	
+	private String time;
+	
+	/***
+	 * 
+	 * @param sendToGroup send message to group or user
+	 * @param senderId producer's ID
+	 * @param receiver receiver's (user/group) ID
+	 * @param tag message topic
+	 * @param priority priority
+	 * @param msg notification message
+	 */
+	public Notification(boolean sendToGroup, int senderId, int receiver, String tag, int priority, String msg){
+		GregorianCalendar dt = new GregorianCalendar();
+		
+		this.msg = msg;
+		this.senderId = senderId;
+		this.receiver = receiver;
+		this.tag = tag;
+		this.sendToGroup = sendToGroup;
+		this.priority = priority;
+		this.time = ((Integer.toString(dt.get(Calendar.DAY_OF_MONTH))+ ":" +Integer.toString(dt.get(Calendar.MONTH))+ ":" +Integer.toString(dt.get(Calendar.YEAR))+ " " +Integer.toString(dt.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(dt.get(Calendar.MINUTE)) + ":" + Integer.toString(dt.get(Calendar.SECOND))));
 
-	public Notification(){
-		receivers = new LinkedList<Integer>();
 	}
 	
 	public String getMsg() {
 		return msg;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
 	public int getSenderId() {
 		return senderId;
 	}
 
-	public void setSenderId(int senderId) {
-		this.senderId = senderId;
+	public int getReceivers() {
+		return receiver;
 	}
 
-	public List<Integer> getReceivers() {
-		return receivers;
-	}
-
-	public void addReceiver(int receiver) {
-		receivers.add(receiver);
-	}
-
-	public Tag getTag() {
+	public String getTag() {
 		return tag;
 	}
 
-	public void setTag(Tag tag) {
-		this.tag = tag;
+	public boolean isSendToGroup() {
+		return sendToGroup;
 	}
 
-	public int getImportance() {
-		return importance;
+	public String getTime() {
+		return time;
 	}
 
-	public void setImportance(int importance) throws BadValueException{
-		if(importance < 1 || importance > 3 ){
-			throw new BadValueException();
-		}
-		this.importance = importance;
+	public int getPriority() {
+		return priority;
 	}
-	
-	public enum Tag{
-		ERROR, COMPLETED;
-	}
-		
+
 }
+
