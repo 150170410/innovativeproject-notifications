@@ -1,7 +1,6 @@
 package services;
 
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
@@ -14,27 +13,23 @@ import com.rabbitmq.client.ConnectionFactory;
 
 public class SendToRabbit {
 
-    private static final String EXCHANGE_NAME = "topic_logs";
+    private static final String QUEUE_NAME = "nokia";
 
     public static void send(Notification notification){
         try{
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost("localhost");
+
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-            for(int id : notification.getReceivers()){
-                channel.queueDeclare(Integer.toString(id), false, false, false, null);
-            }
-
-            String routingKey = notification.getTag().toString();
             byte[] message = toBytes(notification);
 
-            channel.basicPublish(EXCHANGE_NAME, routingKey, null, message);
-            System.out.println(" [x] Sent '" + routingKey + "':'" + notification.getMsg() + "'");
-
+            channel.basicPublish("", QUEUE_NAME, null, message);
+            System.out.println(" [x] Sent to : " + QUEUE_NAME + ": '" + notification.getMessage() + "'");
+            channel.close();
             connection.close();
 
         }catch(TimeoutException | IOException e){
@@ -57,7 +52,7 @@ public class SendToRabbit {
             try {
                 bos.close();
             } catch (IOException ex) {
-                // ignore close exception
+                ex.printStackTrace();
             }
         }
 
