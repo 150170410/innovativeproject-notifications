@@ -7,8 +7,6 @@ import services.SendToRabbit;
 import services.Notification;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.JsonNode;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeoutException;
 
 /**
