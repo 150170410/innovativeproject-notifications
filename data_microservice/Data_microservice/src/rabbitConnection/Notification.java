@@ -1,3 +1,4 @@
+package rabbitConnection;
 
 import java.io.Serializable;
 import java.util.Calendar;

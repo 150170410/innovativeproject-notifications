@@ -1,3 +1,4 @@
+package rabbitConnection;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -11,16 +12,16 @@ import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
-public class RecieveFromRabbit {
+public class ReceiveFromRabbit {
 	
-	private static String QUEUE_NAME = null;
-	private static byte[] notification = null;
+	private String QUEUE_NAME = null;
+	private byte[] notification = null;
 	
-	public static void setQueueName(String queueName){
-		RecieveFromRabbit.QUEUE_NAME = queueName;
+	public ReceiveFromRabbit(String queueName){
+		this.QUEUE_NAME = queueName;
 	}
 	
-	public static void getNotificationBytes() throws IOException, java.lang.InterruptedException, TimeoutException{
+	public void getNotificationBytes() throws IOException, java.lang.InterruptedException, TimeoutException{
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost(QUEUE_NAME);
 		Connection connection = factory.newConnection();
@@ -37,7 +38,7 @@ public class RecieveFromRabbit {
 		channel.basicConsume(QUEUE_NAME, true, consumer);
 	}
 	
-	public static byte[] getNotification(){
+	public byte[] getNotification(){
 		return notification;
 	}
 }
