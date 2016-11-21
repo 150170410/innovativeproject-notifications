@@ -2,7 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import play.mvc.*;
-import services.RecieveFromRabbit;
+import services.ReceiveFromRabbit;
 import services.SendToRabbit;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -15,7 +15,7 @@ import views.html.*;
  */
 public class HomeController extends Controller {
 
-    String notification = "";
+    Notification notification = new Notification();
 
     public Result receive() throws IOException, TimeoutException{
 	GregorianCalendar dt = new GregorianCalendar();
