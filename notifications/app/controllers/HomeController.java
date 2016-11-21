@@ -6,7 +6,8 @@ import services.RecieveFromRabbit;
 import services.SendToRabbit;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
-
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import views.html.*;
 /**
  * This controller contains an action to handle HTTP requests
@@ -17,20 +18,14 @@ public class HomeController extends Controller {
     String notification = "";
 
     public Result receive() throws IOException, TimeoutException{
-        JsonNode json = request().body().asJson();
-        if (json == null) {
-            return badRequest("Expecting Json data");
-        } else {
-            notification = json.findPath("message").textValue();
-            if (notification == null) {
-                notification = "Empty";
-                return badRequest("Missing parameter [message]");
-            } else {
+	GregorianCalendar dt = new GregorianCalendar();
+	String time = ((Integer.toString(dt.get(Calendar.DAY_OF_MONTH))+ ":" +Integer.toString(dt.get(Calendar.MONTH))+ ":" +Integer.toString(dt.get(Calendar.YEAR))+ " " +Integer.toString(dt.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(dt.get(Calendar.MINUTE)) + ":" + Integer.toString(dt.get(Calendar.SECOND))));
+
                 SendToRabbit.setQueueName("hello");
                 SendToRabbit.send(notification);
                 return ok();
-            }
-        }
+                
+        
     }
 
     /**
