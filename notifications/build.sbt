@@ -9,8 +9,9 @@ scalaVersion := "2.11.7"
 libraryDependencies ++= Seq(
   javaJdbc,
   cache,
-  javaWs,
-  "com.rabbitmq" % "amqp-client" % "3.6.5",
-  )
+  javaWs
+)
+
+libraryDependencies += "com.rabbitmq" % "amqp-client" % "3.6.5"
 
 fork in run := true
