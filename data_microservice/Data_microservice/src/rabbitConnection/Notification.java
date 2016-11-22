@@ -9,18 +9,18 @@ public class Notification implements Serializable{
 	private static final long serialVersionUID = -8922509021222517613L;
 	private boolean sendToGroup;
 	private int senderId;
-	private int receiver;
+	private int receiverId;
 	private String tag;
 	private int priority;
-	private String msg;
+	private String message;
 	private String time;
 	
-	public Notification(boolean sendToGroup, int senderId, int receiver, String tag, int priority, String msg){
+	public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message){
 		GregorianCalendar dt = new GregorianCalendar();
 		
-		this.msg = msg;
+		this.message = message;
 		this.senderId = senderId;
-		this.receiver = receiver;
+		this.receiverId = receiverId;
 		this.tag = tag;
 		this.sendToGroup = sendToGroup;
 		this.priority = priority;
@@ -29,8 +29,8 @@ public class Notification implements Serializable{
 				":" +Integer.toString(dt.get(Calendar.MINUTE))+ ":" +Integer.toString(dt.get(Calendar.SECOND)));
 	}
 	
-	public String getMsg(){
-		return msg;
+	public String getMessage(){
+		return message;
 	}
 	
 	public int getSenderId(){
@@ -38,7 +38,7 @@ public class Notification implements Serializable{
 	}
 	
 	public int getReceivers(){
-		return receiver;
+		return receiverId;
 	}
 	
 	public String getTag(){

@@ -1,8 +1,6 @@
 package databaseConnection;
 
 import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 public class Notification {
     private int messageId;
