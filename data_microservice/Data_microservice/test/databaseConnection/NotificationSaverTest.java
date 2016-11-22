@@ -1,5 +1,6 @@
 package databaseConnection;
 
+import org.junit.After;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -8,8 +9,9 @@ import java.sql.Timestamp;
 
 import static org.mockito.Mockito.*;
 
-
 public class NotificationSaverTest {
+    final Notification notification = new Notification(1, new Timestamp(123000), 2, 3, 4, 5, "test");
+
     DBConnection dbConnectionMock = mock(DBConnection.class);
     Connection connectionMock = mock(Connection.class);
     PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
@@ -18,7 +20,11 @@ public class NotificationSaverTest {
 
     NotificationSaver sut = new NotificationSaver(dbConnectionMock);
 
-    final Notification notification = new Notification(1, new Timestamp(System.currentTimeMillis()), 2, 3, 4, 5, "test");
+    @After
+    public void after()
+    {
+        dbConnection.closeConnection();
+    }
 
     @Test
     public void saveToDatabase() throws Exception {

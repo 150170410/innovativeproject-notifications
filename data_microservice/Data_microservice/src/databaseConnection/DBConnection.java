@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class DBConnection {
+    Connection connection;
 	private String databaseAddress;
 	private String password;
 	private String user;
@@ -21,10 +22,22 @@ public class DBConnection {
             properties.setProperty("password", password);
             properties.setProperty("useSSL", "true");
 
-			return DriverManager.getConnection("jdbc:mysql://" + databaseAddress, properties);
+            if (connection != null)
+                connection = DriverManager.getConnection("jdbc:mysql://" + databaseAddress, properties);
+            return connection;
 		} catch(Exception ex){
 			ex.getMessage();
 		}
 		return null;
 	}
+
+    public void closeConnection() {
+        try {
+            if (connection != null)
+                connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        connection = null;
+    }
 }

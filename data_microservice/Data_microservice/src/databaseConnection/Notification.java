@@ -57,4 +57,34 @@ public class Notification {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Notification that = (Notification) o;
+
+        return messageId == that.messageId &&
+                sourceUserId == that.sourceUserId &&
+                targetUserId == that.targetUserId &&
+                targetGroupId == that.targetGroupId &&
+                priority == that.priority &&
+                receivingTime.equals(that.receivingTime) &&
+                value.equals(that.value);
+
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "messageId=" + messageId +
+                ", receivingTime=" + receivingTime +
+                ", sourceUserId=" + sourceUserId +
+                ", targetUserId=" + targetUserId +
+                ", targetGroupId=" + targetGroupId +
+                ", priority=" + priority +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }
