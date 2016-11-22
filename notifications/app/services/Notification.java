@@ -1,7 +1,5 @@
 package services;
 
-package rabbitmq;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -11,40 +9,39 @@ public class Notification implements Serializable{
 
 
 	private static final long serialVersionUID = -8922509021222517613L;
-	
-	
+
 	private boolean sendToGroup;
-	private int senderId;				
-	private int receiver;
+	private int senderId;
+	private int receiverId;
 	private String tag;
 	private int priority;
-	private String msg;	
+	private String message;
 	private String time;
-	
+
 	/***
-	 * 
+	 *
 	 * @param sendToGroup send message to group or user
 	 * @param senderId producer's ID
-	 * @param receiver receiver's (user/group) ID
+	 * @param receiverId receiver's (user/group) ID
 	 * @param tag message topic
 	 * @param priority priority
-	 * @param msg notification message
+	 * @param message notification message
 	 */
-	public Notification(boolean sendToGroup, int senderId, int receiver, String tag, int priority, String msg){
-		GregorianCalendar dt = new GregorianCalendar();
-		
-		this.msg = msg;
+	public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message){
+		GregorianCalendar time = new GregorianCalendar();
+
+		this.message = message;
 		this.senderId = senderId;
-		this.receiver = receiver;
+		this.receiverId = receiverId;
 		this.tag = tag;
 		this.sendToGroup = sendToGroup;
 		this.priority = priority;
-		this.time = ((Integer.toString(dt.get(Calendar.DAY_OF_MONTH))+ ":" +Integer.toString(dt.get(Calendar.MONTH))+ ":" +Integer.toString(dt.get(Calendar.YEAR))+ " " +Integer.toString(dt.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(dt.get(Calendar.MINUTE)) + ":" + Integer.toString(dt.get(Calendar.SECOND))));
+		this.time = ((Integer.toString(time.get(Calendar.DAY_OF_MONTH))+ ":" +Integer.toString(time.get(Calendar.MONTH))+ ":" +Integer.toString(time.get(Calendar.YEAR))+ " " +Integer.toString(time.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(time.get(Calendar.MINUTE)) + ":" + Integer.toString(time.get(Calendar.SECOND))));
 
 	}
-	
-	public String getMsg() {
-		return msg;
+
+	public String getMessage() {
+		return message;
 	}
 
 	public int getSenderId() {
@@ -52,7 +49,7 @@ public class Notification implements Serializable{
 	}
 
 	public int getReceivers() {
-		return receiver;
+		return receiverId;
 	}
 
 	public String getTag() {
@@ -72,4 +69,3 @@ public class Notification implements Serializable{
 	}
 
 }
-
