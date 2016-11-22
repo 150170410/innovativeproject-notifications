@@ -5,18 +5,13 @@ import java.sql.PreparedStatement;
 
 public class NotificationSaver implements INotificationSaver {
     private final String tableName = Notification.class.getSimpleName();
-    private final String messageId = "messageId";
-    private final String receivingTime = "receivingTime";
-    private final String sourceUserId = "sourceUserId";
-    private final String targetUserId = "targetUserId";
-    private final String targetGroupId = "targetGroupId";
-    private final String priority = "priority";
-    private String value = "notificationMsg";
     private final String values = " VALUES ( ? , ? , ? , ?, ? , ? , ? );";
 
     private final String insertNotification = "INSERT INTO " + tableName +
-            " ( " + messageId + " , " + receivingTime + " , " + sourceUserId + " , " + targetUserId + " , " + targetGroupId + " , "
-            + priority + " , " + value + " ) "
+            " ( " + Notification.messageIdName + " , " + Notification.receivingTimeName + " , "
+            + Notification.sourceUserIdName + " , " + Notification.targetUserIdName + " , "
+            + Notification.targetGroupIdName + " , " + Notification.priorityName + " , "
+            + Notification.valueName + " ) "
             + values;
 
     private DBConnection connection;

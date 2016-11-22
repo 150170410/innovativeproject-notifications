@@ -11,6 +11,14 @@ public class Notification {
     private int priority;
     private String value;
 
+    static final String messageIdName = "messageId";
+    static final String receivingTimeName = "receivingTime";
+    static final String sourceUserIdName = "sourceUserId";
+    static final String targetUserIdName = "targetUserId";
+    static final String targetGroupIdName = "targetGroupId";
+    static final String priorityName = "priority";
+    static String valueName = "notificationMsg";
+
     public Notification(int messageId, Timestamp timestamp, int sourceUserId, int targetUserId,
                         int targetGroupId, int priority, String value) {
         this.messageId = messageId;
