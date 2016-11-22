@@ -20,27 +20,32 @@ public class NotificationReader implements INotificationReader {
 
     @Override
     public List<Notification> getNotification(int userId) {
-        List<Notification> notificationList = new LinkedList<Notification>();
+        List<Notification> notificationList = new LinkedList<>();
         try {
             Statement statement = dbConnection.getConnection().createStatement();
             ResultSet result = statement.executeQuery(selectBasedOnUserId + userId);
 
             while(result.next()) {
-                int messageId = result.getInt(Notification.messageIdName);
-                Timestamp receivingTime = result.getTimestamp(Notification.receivingTimeName);
-                int sourceUserId = result.getInt(Notification.sourceUserIdName);
-                int targetUserId = result.getInt(Notification.targetUserIdName);
-                int targetGroupId = result.getInt(Notification.targetGroupIdName);
-                int priority = result.getInt(Notification.priorityName);
-                String value = result.getString(Notification.valueName);
-
-                notificationList.add(new Notification(messageId, receivingTime, sourceUserId,
-                                                      targetUserId, targetGroupId, priority, value));
+                Notification notification = readNotification(result);
+                notificationList.add(notification);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
         return notificationList;
+    }
+
+    private Notification readNotification(ResultSet result) throws SQLException {
+        int messageId = result.getInt(Notification.messageIdName);
+        Timestamp receivingTime = result.getTimestamp(Notification.receivingTimeName);
+        int sourceUserId = result.getInt(Notification.sourceUserIdName);
+        int targetUserId = result.getInt(Notification.targetUserIdName);
+        int targetGroupId = result.getInt(Notification.targetGroupIdName);
+        int priority = result.getInt(Notification.priorityName);
+        String value = result.getString(Notification.valueName);
+
+        return new Notification(messageId, receivingTime, sourceUserId,
+                targetUserId, targetGroupId, priority, value);
     }
 }

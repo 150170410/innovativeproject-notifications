@@ -3,6 +3,14 @@ package databaseConnection;
 import java.sql.Timestamp;
 
 public class Notification {
+    static final String messageIdName = "messageId";
+    static final String receivingTimeName = "receivingTime";
+    static final String sourceUserIdName = "sourceUserId";
+    static final String targetUserIdName = "targetUserId";
+    static final String targetGroupIdName = "targetGroupId";
+    static final String priorityName = "priority";
+    static final String valueName = "notificationMsg";
+
     private int messageId;
     private Timestamp receivingTime;
     private int sourceUserId;
@@ -10,14 +18,6 @@ public class Notification {
     private int targetGroupId;
     private int priority;
     private String value;
-
-    static final String messageIdName = "messageId";
-    static final String receivingTimeName = "receivingTime";
-    static final String sourceUserIdName = "sourceUserId";
-    static final String targetUserIdName = "targetUserId";
-    static final String targetGroupIdName = "targetGroupId";
-    static final String priorityName = "priority";
-    static String valueName = "notificationMsg";
 
     public Notification(int messageId, Timestamp timestamp, int sourceUserId, int targetUserId,
                         int targetGroupId, int priority, String value) {
