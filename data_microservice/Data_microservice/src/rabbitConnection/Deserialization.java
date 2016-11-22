@@ -6,19 +6,22 @@ import java.io.ObjectInputStream;
 import java.util.concurrent.TimeoutException;
 
 public class Deserialization {
+	
 	private String queueName = "hello";
 	ReceiveFromRabbit rabbit = new ReceiveFromRabbit(queueName);
+	private byte[] notifiByteArr = null;
 	
-	public Notification getNotificationObject(){
-		
-		try{
+	public Notification getNotifiObj(){
+		try {
 			rabbit.getNotificationBytes();
-			ByteArrayInputStream in = new ByteArrayInputStream(rabbit.getNotification());
+			notifiByteArr = rabbit.getNotification();
+			ByteArrayInputStream in = new ByteArrayInputStream(notifiByteArr);
 			ObjectInputStream is = new ObjectInputStream(in);
 			return (Notification)is.readObject();
-		}catch (IOException | InterruptedException | TimeoutException | ClassNotFoundException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+		} catch (IOException | InterruptedException | TimeoutException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}
