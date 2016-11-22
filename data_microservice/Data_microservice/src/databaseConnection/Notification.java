@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Notification {
     private int messageId;
-    private Timestamp timestamp;
+    private Timestamp receivingTime;
     private int sourceUserId;
     private int targetUserId;
     private int targetGroupId;
@@ -14,7 +14,7 @@ public class Notification {
     public Notification(int messageId, Timestamp timestamp, int sourceUserId, int targetUserId,
                         int targetGroupId, int priority, String value) {
         this.messageId = messageId;
-        this.timestamp = timestamp;
+        this.receivingTime = timestamp;
         this.sourceUserId = sourceUserId;
         this.targetUserId = targetUserId;
         this.targetGroupId = targetGroupId;
@@ -26,8 +26,8 @@ public class Notification {
         return messageId;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getReceivingTime() {
+        return receivingTime;
     }
 
     public int getSourceUserId() {

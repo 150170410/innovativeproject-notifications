@@ -1,6 +1,7 @@
 package databaseConnection;
 
 import java.sql.*;
+import java.util.Properties;
 
 public class DBConnection {
 	private String databaseAddress;
@@ -15,8 +16,12 @@ public class DBConnection {
 	
 	public Connection getConnection(){
 		try{
-			Connection connection = DriverManager.getConnection("jdbc:mysql://"+ databaseAddress, user, password);
-			return connection;
+            Properties properties = new Properties();
+            properties.setProperty("user", user);
+            properties.setProperty("password", password);
+            properties.setProperty("useSSL", "true");
+
+			return DriverManager.getConnection("jdbc:mysql://" + databaseAddress, properties);
 		} catch(Exception ex){
 			ex.getMessage();
 		}
