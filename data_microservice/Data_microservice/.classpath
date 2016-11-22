@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry exported="true" kind="lib" path="/home/vertez/Nokia/innovativeproject-notifications/data_microservice/Data_microservice/amqp-client-3.6.5.jar"/>
+	<classpathentry kind="lib" path="lib/amqp-client-3.6.5.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

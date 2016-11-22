@@ -1,36 +1,36 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import play.mvc.*;
-import services.RecieveFromRabbit;
-import services.SendToRabbit;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-import services.*;
 
-import views.html.*;
+import play.mvc.*;
+import services.ReceiveFromRabbit;
+import services.SendToRabbit;
+import services.Notification;
+import java.io.IOException;
+import com.fasterxml.jackson.databind.JsonNode;
+import java.util.concurrent.TimeoutException;
+
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
 public class HomeController extends Controller {
 
-    String notification = "";
-
-    public Result receive() throws IOException, TimeoutException{
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result send() {
         JsonNode json = request().body().asJson();
-        if (json == null) {
-            return badRequest("Expecting Json data");
+        String message = json.findPath("message").textValue();
+        String tag = json.findPath("tag").textValue();
+        boolean toGroup = json.findPath("sendToGroup").booleanValue();
+        int receiverId = json.findPath("receiverId").intValue();
+        int senderId = json.findPath("senderId").intValue();
+        int priority = json.findPath("priority").intValue();
+
+        if(tag == null || message == null) {
+            return badRequest("Missing parameter");
         } else {
-            notification = json.findPath("message").textValue();
-            if (notification == null) {
-                notification = "Empty";
-                return badRequest("Missing parameter [message]");
-            } else {
-                SendToRabbit.setQueueName("hello");
-                SendToRabbit.send(notification);
-                return ok();
-            }
+            Notification notification = new Notification(toGroup, senderId, receiverId, "test tag", priority, message);
+            SendToRabbit.send(notification);
+            return ok("\nTime " + notification.getTime() + " msg: " + message);
         }
     }
 
@@ -41,7 +41,12 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() throws IOException, java.lang.InterruptedException, TimeoutException {
-        RecieveFromRabbit.setQueueName("hello");
-        return ok("Your message: " + RecieveFromRabbit.getMessage());
+        ReceiveFromRabbit r = new ReceiveFromRabbit();
+        r.receive();
+        while(r.messages.isEmpty()){
+
+        }
+        Notification not = r.messages.poll();
+        return ok("Your message: '" + not.getMessage() +  "' Time: " + not.getTime());
     }
 }
