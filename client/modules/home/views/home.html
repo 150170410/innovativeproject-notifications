@@ -1,0 +1,10 @@
+<h1>Home</h1>
+<p>You're logged in!!</p>
+<p><a href="#/login">Logout</a></a></p>
+
+<div ng-show="error" class="alert alert-danger">{{message}}</div>
+<form name="form" ng-submit="login()" role="form">
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger">Get Message</button>
+	</div>
+</form>

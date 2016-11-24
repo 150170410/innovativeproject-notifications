@@ -1,6 +1,6 @@
 package controllers;
 
-
+import play.*;
 import play.mvc.*;
 import services.ReceiveFromRabbit;
 import services.SendToRabbit;
@@ -8,6 +8,9 @@ import services.Notification;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.concurrent.TimeoutException;
+
+import play.db.DB;
+import java.sql.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -48,5 +51,60 @@ public class HomeController extends Controller {
         }
         Notification not = r.messages.poll();
         return ok("Your message: '" + not.getMessage() +  "' Time: " + not.getTime());
+    }
+
+    public Result getMessage() throws SQLException
+    {
+        Statement stmt = null;
+        String result = "";
+        try
+        {
+            Connection connection = DB.getConnection("default");
+            stmt = connection.createStatement();
+            String query = "SELECT * FROM notification";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next())
+            {
+                String message = rs.getString("message");
+                result += message + "\n";
+            }
+        } catch(SQLException e) {
+            Logger.info(e.getMessage());
+        } finally {
+            if (stmt != null) stmt.close();
+        }
+        return ok(result);
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result LogIn() throws SQLException
+    {
+      JsonNode json = request().body().asJson();
+      String username = json.findPath("username").textValue();
+      String password = json.findPath("password").textValue();
+
+      Statement stmt = null;
+      try
+      {
+        Connection connection = DB.getConnection("default");
+        stmt = connection.createStatement();
+        String query = "SELECT password FROM users WHERE username = '" + username + "'";
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+          String passwd = rs.getString("password");
+          if (password.equals(passwd))
+          {
+            stmt.close();
+            return ok("Success");
+          }
+        }
+      }
+      catch(SQLException e) {
+          Logger.info(e.getMessage());
+      } finally {
+          if (stmt != null) stmt.close();
+      }
+
+      return badRequest("LogIn is not implemented yet");
     }
 }
