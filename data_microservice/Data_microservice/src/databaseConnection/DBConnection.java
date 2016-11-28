@@ -22,13 +22,13 @@ public class DBConnection {
             properties.setProperty("password", password);
             properties.setProperty("useSSL", "true");
 
-            if (connection != null)
+            //if (connection != null) Maciek Ty tego ifa postawiłeś specjalnie?
                 connection = DriverManager.getConnection("jdbc:mysql://" + databaseAddress, properties);
-            return connection;
+            
 		} catch(Exception ex){
 			ex.getMessage();
 		}
-		return null;
+		return connection;
 	}
 
     public void closeConnection() {

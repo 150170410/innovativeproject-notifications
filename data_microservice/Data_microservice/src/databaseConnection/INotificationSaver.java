@@ -1,5 +1,6 @@
 package databaseConnection;
 
+import services.Notification;
 
 public interface INotificationSaver {
 

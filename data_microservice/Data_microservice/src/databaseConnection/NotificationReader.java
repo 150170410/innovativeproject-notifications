@@ -1,16 +1,17 @@
 package databaseConnection;
 
 
-import java.sql.ResultSet;
+/*import java.sql.ResultSet;
+import services.Notification;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.List;*/
 
-public class NotificationReader implements INotificationReader {
-    private final String tableName = Notification.class.getSimpleName();
-    private final String selectBasedOnUserId = "SELECT * FROM " + tableName + " WHERE " + Notification.targetUserIdName + "=";
+public class NotificationReader /*implements INotificationReader */{
+   /* private final String tableName = Notification.class.getSimpleName();
+    private final String selectBasedOnUserId = "SELECT * FROM " + tableName + " WHERE " + Notification.targetUserIdName + "=";*/
 
     private DBConnection dbConnection;
 
@@ -18,7 +19,7 @@ public class NotificationReader implements INotificationReader {
         this.dbConnection = dbConnection;
     }
 
-    @Override
+    /*@Override
     public List<Notification> getNotification(int userId) {
         List<Notification> notificationList = new LinkedList<>();
         try {
@@ -47,5 +48,5 @@ public class NotificationReader implements INotificationReader {
 
         return new Notification(messageId, receivingTime, sourceUserId,
                 targetUserId, targetGroupId, priority, value);
-    }
+    }*/
 }

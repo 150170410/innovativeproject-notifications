@@ -1,7 +1,6 @@
 package services;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.sql.Timestamp;
 
 
@@ -34,7 +33,7 @@ public class Notification implements Serializable{
 		this.tag = tag;
 		this.sendToGroup = sendToGroup;
 		this.priority = priority;
-		this.time = new Timestamp(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND, 0);
+		this.time = new Timestamp(System.currentTimeMillis());
 	}
 
 	public String getMessage() {
