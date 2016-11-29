@@ -15,5 +15,3 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "com.rabbitmq" % "amqp-client" % "3.6.5"
-
-fork in run := true

@@ -14,7 +14,7 @@ angular.module('Authentication')
 					AuthenticationService.SetCredentials($scope.username, $scope.password);
 					$location.path('/');
 				} else {
-					$scope.error = response.message;
+					$scope.error = "Invalid username or password.";
 					$scope.dataLoading = false;
 				}
 			});

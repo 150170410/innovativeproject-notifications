@@ -47,7 +47,7 @@ public class HomeController extends Controller {
         ReceiveFromRabbit r = new ReceiveFromRabbit();
         r.receive();
         while(r.messages.isEmpty()){
-
+          
         }
         Notification not = r.messages.poll();
         return ok("Your message: '" + not.getMessage() +  "' Time: " + not.getTime());
@@ -56,10 +56,11 @@ public class HomeController extends Controller {
     public Result getMessage() throws SQLException
     {
         Statement stmt = null;
+        Connection connection = null;
         String result = "";
         try
         {
-            Connection connection = DB.getConnection("default");
+            connection = DB.getConnection("default");
             stmt = connection.createStatement();
             String query = "SELECT * FROM notification";
             ResultSet rs = stmt.executeQuery(query);
@@ -71,7 +72,7 @@ public class HomeController extends Controller {
         } catch(SQLException e) {
             Logger.info(e.getMessage());
         } finally {
-            if (stmt != null) stmt.close();
+            connection.close();
         }
         return ok(result);
     }
@@ -105,6 +106,6 @@ public class HomeController extends Controller {
           if (stmt != null) stmt.close();
       }
 
-      return badRequest("LogIn is not implemented yet");
+      return ok("Invalid");
     }
 }
