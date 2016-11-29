@@ -14,6 +14,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 POST     /send                          controllers.HomeController.send
 
-GET 	/getmessage						controllers.HomeController.getMessage
+GET 	/getmessage						controllers.HomeController.getMessage(username ?= null)
 
 POST 	/login							controllers.HomeController.LogIn

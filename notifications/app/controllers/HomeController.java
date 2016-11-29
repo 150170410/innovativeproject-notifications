@@ -53,22 +53,29 @@ public class HomeController extends Controller {
         return ok("Your message: '" + not.getMessage() +  "' Time: " + not.getTime());
     }*/
 
-    public Result getMessage() throws SQLException
-    {
-        Statement stmt = null;
+    public Result getMessage(String username) throws SQLException {
+        PreparedStatement stmt = null;
         Connection connection = null;
         String result = "";
-        try
-        {
+        try {
             connection = DB.getConnection("default");
-            stmt = connection.createStatement();
-            String query = "SELECT * FROM notification";
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next())
-            {
+            stmt = connection.prepareStatement("SELECT userID FROM users WHERE username = ?");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+              connection.close();
+              return ok("Invalid username");
+            } 
+            String receiverId = rs.getString("userID");
+
+            stmt = connection.prepareStatement("SELECT * FROM notification WHERE receiverId = ?");
+            stmt.setString(1, receiverId);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
                 String message = rs.getString("message");
                 result += message + "\n";
             }
+
         } catch(SQLException e) {
             Logger.info(e.getMessage());
         } finally {
@@ -78,23 +85,20 @@ public class HomeController extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public Result LogIn() throws SQLException
-    {
+    public Result LogIn() throws SQLException {
       JsonNode json = request().body().asJson();
       String username = json.findPath("username").textValue();
       String password = json.findPath("password").textValue();
 
-      Statement stmt = null;
-      try
-      {
+      PreparedStatement stmt = null;
+      try {
         Connection connection = DB.getConnection("default");
-        stmt = connection.createStatement();
-        String query = "SELECT password FROM users WHERE username = '" + username + "'";
-        ResultSet rs = stmt.executeQuery(query);
+        stmt = connection.prepareStatement("SELECT password FROM users WHERE username=?");
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
           String passwd = rs.getString("password");
-          if (password.equals(passwd))
-          {
+          if (password.equals(passwd)) {
             stmt.close();
             return ok("Success");
           }

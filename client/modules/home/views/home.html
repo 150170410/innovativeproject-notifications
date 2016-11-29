@@ -2,7 +2,9 @@
 <p>You're logged in!!</p>
 <p><a href="#/login">Logout</a></a></p>
 
-<div ng-show="message" class="alert alert-danger">{{message}}</div>
+<div ng-show="message" class="panel panel-default">
+	<div class="panel-body">{{message}}</div>
+</div>
 <form name="form" ng-submit="getmessage()" role="form">
     <div class="form-actions">
         <button type="submit" class="btn btn-danger">Get Message</button>
