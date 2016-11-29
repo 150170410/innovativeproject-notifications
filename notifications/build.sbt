@@ -10,8 +10,10 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  filters,
-  "mysql" % "mysql-connector-java" % "5.1.29"
+  filters
 )
 
 libraryDependencies += "com.rabbitmq" % "amqp-client" % "3.6.5"
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.29"
+
+fork in run := true

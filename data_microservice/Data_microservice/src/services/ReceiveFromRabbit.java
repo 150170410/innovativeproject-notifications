@@ -1,4 +1,4 @@
-package rabbitConnection;
+package services;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
@@ -23,11 +23,12 @@ public class ReceiveFromRabbit {
 	
 	public void getNotificationBytes() throws IOException, java.lang.InterruptedException, TimeoutException{
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost(QUEUE_NAME);
+		factory.setHost("localhost");
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		System.out.println(" [*] Waiting for messages from queue: "+ QUEUE_NAME);
 		Consumer consumer = new DefaultConsumer(channel){
 			@Override
 			public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
@@ -39,6 +40,8 @@ public class ReceiveFromRabbit {
 	}
 	
 	public byte[] getNotification(){
-		return notification;
+		byte[] temp = notification;
+		notification = null;
+		return temp;
 	}
 }

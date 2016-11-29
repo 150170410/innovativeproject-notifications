@@ -1,12 +1,18 @@
 package databaseConnection;
 
 import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 public class Notification {
+    static final String messageIdName = "messageId";
+    static final String receivingTimeName = "receivingTime";
+    static final String sourceUserIdName = "sourceUserId";
+    static final String targetUserIdName = "targetUserId";
+    static final String targetGroupIdName = "targetGroupId";
+    static final String priorityName = "priority";
+    static final String valueName = "notificationMsg";
+
     private int messageId;
-    private Timestamp timestamp;
+    private Timestamp receivingTime;
     private int sourceUserId;
     private int targetUserId;
     private int targetGroupId;
@@ -16,7 +22,7 @@ public class Notification {
     public Notification(int messageId, Timestamp timestamp, int sourceUserId, int targetUserId,
                         int targetGroupId, int priority, String value) {
         this.messageId = messageId;
-        this.timestamp = timestamp;
+        this.receivingTime = timestamp;
         this.sourceUserId = sourceUserId;
         this.targetUserId = targetUserId;
         this.targetGroupId = targetGroupId;
@@ -28,8 +34,8 @@ public class Notification {
         return messageId;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getReceivingTime() {
+        return receivingTime;
     }
 
     public int getSourceUserId() {
@@ -50,5 +56,35 @@ public class Notification {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Notification that = (Notification) o;
+
+        return messageId == that.messageId &&
+                sourceUserId == that.sourceUserId &&
+                targetUserId == that.targetUserId &&
+                targetGroupId == that.targetGroupId &&
+                priority == that.priority &&
+                receivingTime.equals(that.receivingTime) &&
+                value.equals(that.value);
+
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "messageId=" + messageId +
+                ", receivingTime=" + receivingTime +
+                ", sourceUserId=" + sourceUserId +
+                ", targetUserId=" + targetUserId +
+                ", targetGroupId=" + targetGroupId +
+                ", priority=" + priority +
+                ", value='" + value + '\'' +
+                '}';
     }
 }

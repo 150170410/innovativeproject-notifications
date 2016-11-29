@@ -43,7 +43,7 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() throws IOException, java.lang.InterruptedException, TimeoutException {
+    /*public Result index() throws IOException, java.lang.InterruptedException, TimeoutException {
         ReceiveFromRabbit r = new ReceiveFromRabbit();
         r.receive();
         while(r.messages.isEmpty()){
@@ -51,7 +51,7 @@ public class HomeController extends Controller {
         }
         Notification not = r.messages.poll();
         return ok("Your message: '" + not.getMessage() +  "' Time: " + not.getTime());
-    }
+    }*/
 
     public Result getMessage() throws SQLException
     {
