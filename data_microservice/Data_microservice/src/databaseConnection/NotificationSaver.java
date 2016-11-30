@@ -28,7 +28,7 @@ public class NotificationSaver implements INotificationSaver {
             insert.execute();
             
         } catch (Exception e) {
-           //e.printStackTrace();
+           e.printStackTrace();
         }
     }
 
