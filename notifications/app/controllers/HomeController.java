@@ -59,20 +59,20 @@ public class HomeController extends Controller {
         String result = "";
         try {
             connection = DB.getConnection("default");
-            stmt = connection.prepareStatement("SELECT userID FROM users WHERE username = ?");
+            stmt = connection.prepareStatement("SELECT user_id FROM users WHERE login = ?");
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
               connection.close();
               return ok("Invalid username");
             } 
-            String receiverId = rs.getString("userID");
+            String receiverId = rs.getString("user_id");
 
-            stmt = connection.prepareStatement("SELECT * FROM notification WHERE receiverId = ?");
+            stmt = connection.prepareStatement("SELECT * FROM messages WHERE target_user_id = ?");
             stmt.setString(1, receiverId);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                String message = rs.getString("message");
+                String message = rs.getString("value");
                 result += message + "\n";
             }
 
@@ -93,11 +93,11 @@ public class HomeController extends Controller {
       PreparedStatement stmt = null;
       try {
         Connection connection = DB.getConnection("default");
-        stmt = connection.prepareStatement("SELECT password FROM users WHERE username=?");
+        stmt = connection.prepareStatement("SELECT pass FROM users WHERE login=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-          String passwd = rs.getString("password");
+          String passwd = rs.getString("pass");
           if (password.equals(passwd)) {
             stmt.close();
             return ok("Success");
