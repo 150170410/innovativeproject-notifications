@@ -107,7 +107,7 @@ public class HomeController extends Controller {
       catch(SQLException e) {
           Logger.info(e.getMessage());
       } finally {
-          if (stmt != null) stmt.close();
+          connection.close();
       }
 
       return ok("Invalid");
