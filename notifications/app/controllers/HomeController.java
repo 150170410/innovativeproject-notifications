@@ -89,10 +89,10 @@ public class HomeController extends Controller {
       JsonNode json = request().body().asJson();
       String username = json.findPath("username").textValue();
       String password = json.findPath("password").textValue();
-
+      Connection connection = null;
       PreparedStatement stmt = null;
       try {
-        Connection connection = DB.getConnection("default");
+        connection = DB.getConnection("default");
         stmt = connection.prepareStatement("SELECT pass FROM users WHERE login=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
