@@ -17,10 +17,12 @@ public class Start {
 			try{
 				Thread.sleep(5000);
 				notif = des.getNotifiObj();
+				if(notif == null)
+					continue;
 				sender.saveToDatabase(notif);
 				System.out.println(notif.getMessage());
 			} catch (NullPointerException ex){
-				//System.out.println("No message in queue.");
+				ex.printStackTrace();
 			}
 		}
 	}
