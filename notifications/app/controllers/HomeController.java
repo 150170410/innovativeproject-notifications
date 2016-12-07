@@ -2,11 +2,16 @@ package controllers;
 
 import play.*;
 import play.mvc.*;
+import play.libs.Json;
 import services.ReceiveFromRabbit;
 import services.SendToRabbit;
 import services.Notification;
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import java.util.concurrent.TimeoutException;
 
 import play.db.DB;
@@ -56,7 +61,7 @@ public class HomeController extends Controller {
     public Result getMessage(String username) throws SQLException {
         PreparedStatement stmt = null;
         Connection connection = null;
-        String result = "";
+        List<ObjectNode> results = new ArrayList<ObjectNode>();
         try {
             connection = DB.getConnection("default");
             stmt = connection.prepareStatement("SELECT user_id FROM users WHERE login = ?");
@@ -64,7 +69,7 @@ public class HomeController extends Controller {
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
               connection.close();
-              return ok("Invalid username");
+              return badRequest("Invalid username");
             } 
             String receiverId = rs.getString("user_id");
 
@@ -72,8 +77,10 @@ public class HomeController extends Controller {
             stmt.setString(1, receiverId);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                String message = rs.getString("value");
-                result += message + "\n";
+                ObjectNode result = JsonNodeFactory.instance.objectNode();
+                result.put("id", rs.getInt("msg_id"));
+                result.put("message", rs.getString("value"));
+                results.add(result);
             }
 
         } catch(SQLException e) {
@@ -81,7 +88,7 @@ public class HomeController extends Controller {
         } finally {
             connection.close();
         }
-        return ok(result);
+        return ok(Json.toJson(results));
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -110,6 +117,6 @@ public class HomeController extends Controller {
           connection.close();
       }
 
-      return ok("Invalid");
+      return badRequest("Invalid username or password");
     }
 }
