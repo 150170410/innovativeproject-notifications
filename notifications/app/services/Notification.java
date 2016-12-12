@@ -3,30 +3,29 @@ package services;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
 public class Notification implements Serializable{
 
-
 	private static final long serialVersionUID = -8922509021222517613L;
-
 	private boolean sendToGroup;
 	private int senderId;
 	private int receiverId;
 	private String tag;
 	private int priority;
 	private String message;
+    private int aggregationType;
 	private Timestamp time;
 
-	/***
-	 *
-	 * @param sendToGroup send message to group or user
-	 * @param senderId producer's ID
-	 * @param receiverId receiver's (user/group) ID
-	 * @param tag message topic
-	 * @param priority priority
-	 * @param message notification message
-	 */
-	public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message){
+    public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message) {
+        this.message = message;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.tag = tag;
+        this.sendToGroup = sendToGroup;
+        this.priority = priority;
+        this.time = new Timestamp(System.currentTimeMillis());
+    }
+
+	public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message, int aggregationType){
 		this.message = message;
 		this.senderId = senderId;
 		this.receiverId = receiverId;
@@ -34,34 +33,39 @@ public class Notification implements Serializable{
 		this.sendToGroup = sendToGroup;
 		this.priority = priority;
 		this.time = new Timestamp(System.currentTimeMillis());
+        this.aggregationType = aggregationType;
 	}
-
-	public String getMessage() {
+	
+	public String getMessage(){
 		return message;
 	}
-
-	public int getSenderId() {
+	
+	public int getSenderId(){
 		return senderId;
 	}
-
-	public int getReceivers() {
+	
+	public int getReceivers(){
 		return receiverId;
 	}
-
-	public String getTag() {
+	
+	public String getTag(){
 		return tag;
 	}
-
-	public boolean isSendToGroup() {
+	
+	public boolean isSendToGroup(){
 		return sendToGroup;
 	}
-
-	public Timestamp getTime() {
+	
+	public Timestamp getTime(){
 		return time;
 	}
-
-	public int getPriority() {
+	
+	public int getPriority(){
 		return priority;
 	}
 
+    public int getAggregationType(){
+        return aggregationType;
+    }
 }
+

@@ -12,9 +12,20 @@ public class Notification implements Serializable{
 	private String tag;
 	private int priority;
 	private String message;
+    private int aggregationType;
 	private Timestamp time;
-	
-	public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message){
+
+    public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message) {
+        this.message = message;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.tag = tag;
+        this.sendToGroup = sendToGroup;
+        this.priority = priority;
+        this.time = new Timestamp(System.currentTimeMillis());
+    }
+
+	public Notification(boolean sendToGroup, int senderId, int receiverId, String tag, int priority, String message, int aggregationType){
 		this.message = message;
 		this.senderId = senderId;
 		this.receiverId = receiverId;
@@ -22,6 +33,7 @@ public class Notification implements Serializable{
 		this.sendToGroup = sendToGroup;
 		this.priority = priority;
 		this.time = new Timestamp(System.currentTimeMillis());
+        this.aggregationType = aggregationType;
 	}
 	
 	public String getMessage(){
@@ -51,4 +63,8 @@ public class Notification implements Serializable{
 	public int getPriority(){
 		return priority;
 	}
+
+    public int getAggregationType(){
+        return aggregationType;
+    }
 }
