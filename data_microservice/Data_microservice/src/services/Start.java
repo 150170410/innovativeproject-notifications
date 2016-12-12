@@ -6,24 +6,40 @@ import databaseConnection.*;
 
 
 public class Start {
-	
-	public static void main(String[] args) throws IOException, InterruptedException, TimeoutException{
-		Deserialization des = new Deserialization("nokia");
-		DBConnection connection = new DBConnection("127.0.0.1:3306/notifications", "root", "root");
-		NotificationSaver sender = new NotificationSaver(connection);
-		Notification notif;
-		
-		while(true){
-			try{
-				Thread.sleep(5000);
-				notif = des.getNotifiObj();
-				if(notif == null)
-					continue;
-				sender.saveToDatabase(notif);
-				System.out.println(notif.getMessage());
-			} catch (NullPointerException ex){
-				ex.printStackTrace();
-			}
-		}
-	}
+    public static void main(String[] args) throws IOException, InterruptedException, TimeoutException {
+        if (true) {
+            test();
+            return;
+        }
+    
+        Deserialization des = new Deserialization("nokia");
+        DBConnection connection = new DBConnection("127.0.0.1:3306/notifications", "root", "root");
+        NotificationSaver sender = new NotificationSaver(connection);
+        Aggregation aggregation = new Aggregation(sender);
+        Notification notification;
+    
+        while(true){
+            try{
+                Thread.sleep(5000);
+                notification = des.getNotifiObj();
+                if(notification == null)
+                    continue;
+                aggregation.run(notification);
+                System.out.println(notification.getMessage());
+            } catch (NullPointerException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private static void test() throws InterruptedException, TimeoutException, IOException {
+        int aggregationType = 1;
+
+        DBConnection connection = new DBConnection("127.0.0.1:3306/notifications", "root", "root");
+        NotificationSaver sender = new NotificationSaver(connection);
+        Aggregation aggregation = new Aggregation(sender);
+        Notification notification = new Notification(false, 1, 1, "lol", 5, "test", aggregationType);
+        aggregation.run(notification);
+        System.out.println(notification.getMessage());
+    }
 }
