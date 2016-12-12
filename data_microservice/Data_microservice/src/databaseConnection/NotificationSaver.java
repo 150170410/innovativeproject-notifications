@@ -55,7 +55,6 @@ public class NotificationSaver implements INotificationSaver {
                 " value=\'" + notification.getMessage() + "\' " +
                 " WHERE source_user_id=" + notification.getSenderId() +
                 " AND target_user_id=" + notification.getReceivers();
-        System.out.println(update);
         try {
             Statement statement = connection.getConnection().createStatement();
             statement.executeUpdate(update);
