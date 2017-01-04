@@ -3,11 +3,21 @@ package databaseConnection;
 import com.sun.istack.internal.NotNull;
 import services.Notification;
 
-public interface INotificationSaver {
+public abstract class INotificationSaver {
 
-    void saveToDatabase(Notification notification, @NotNull String tableName);
+    public abstract void saveToDatabase(Notification notification, @NotNull String tableName);
+    public void saveToDatabase(Notification notification) {
+        saveToDatabase(notification, "messages");
+    }
 
-    boolean isAnyNotificationFromProducerInDataBase(Notification notification, @NotNull String tableName);
+    public abstract boolean isAnyNotificationFromProducerInDataBase(Notification notification,
+                                                                    @NotNull String tableName);
+    public boolean isAnyNotificationFromProducerInDataBase(Notification notification) {
+        return isAnyNotificationFromProducerInDataBase(notification, "messages");
+    }
 
-    void update(Notification notification, @NotNull String tableName);
+    public abstract void update(Notification notification, @NotNull String tableName);
+    public void update(Notification notification) {
+        update(notification, "messages");
+    }
 }

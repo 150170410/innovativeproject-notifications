@@ -7,7 +7,7 @@ import databaseConnection.*;
 
 public class Start {
     public static void main(String[] args) throws IOException, InterruptedException, TimeoutException {
-        if (true) {
+        if (false) {
             test();
             return;
         }
@@ -38,8 +38,9 @@ public class Start {
         DBConnection connection = new DBConnection("127.0.0.1:3306/notifications", "root", "root");
         NotificationSaver sender = new NotificationSaver(connection);
         Aggregation aggregation = new Aggregation(sender);
-        Notification notification = new Notification(false, 1, 1, "lol", 5, "test", aggregationType);
+        Notification notification = new Notification(false, 1, 1, "tag_lol", 5, "test678", aggregationType);
         aggregation.run(notification);
+
         System.out.println(notification.getMessage());
     }
 }

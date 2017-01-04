@@ -28,24 +28,24 @@ public class Aggregation {
 
     private void None(Notification notification) {
         // brak agregacji
-        saver.saveToDatabase(notification, "msg_none");
+        saver.saveToDatabase(notification);
     }
 
     private void Last(Notification notification) {
         // tylko najnowszy
-        boolean isInBase = saver.isAnyNotificationFromProducerInDataBase(notification, "msg_last");
+        boolean isInBase = saver.isAnyNotificationFromProducerInDataBase(notification);
         if ( ! isInBase )
-            saver.saveToDatabase(notification, "msg_last");
+            saver.saveToDatabase(notification);
         else
-            saver.update(notification, "msg_last");
+            saver.update(notification);
 
     }
 
     private void First(Notification notification) {
         // tylko najstarszy
-        boolean isInBase = saver.isAnyNotificationFromProducerInDataBase(notification, "msg_first");
+        boolean isInBase = saver.isAnyNotificationFromProducerInDataBase(notification);
         if (! isInBase)
-            saver.saveToDatabase(notification, "msg_first");
+            saver.saveToDatabase(notification);
     }
 
 }
