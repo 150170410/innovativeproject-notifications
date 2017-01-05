@@ -52,13 +52,14 @@ public class HomeController extends Controller {
         ReceiveFromRabbit r = new ReceiveFromRabbit();
         r.receive();
         while(r.messages.isEmpty()){
-          
+
         }
         Notification not = r.messages.poll();
         return ok("Your message: '" + not.getMessage() +  "' Time: " + not.getTime());
     }*/
 
     public Result getMessage(String username) throws SQLException {
+        System.out.println("get message");
         PreparedStatement stmt = null;
         Connection connection = null;
         List<ObjectNode> results = new ArrayList<ObjectNode>();
@@ -70,7 +71,7 @@ public class HomeController extends Controller {
             if (!rs.next()) {
               connection.close();
               return badRequest("Invalid username");
-            } 
+            }
             String receiverId = rs.getString("user_id");
 
             stmt = connection.prepareStatement("SELECT * FROM messages WHERE target_user_id = ?");
@@ -91,6 +92,110 @@ public class HomeController extends Controller {
         return ok(Json.toJson(results));
     }
 
+    public Result getTopics(String username) throws SQLException {
+        System.out.println("get topics");
+        PreparedStatement statement = null;
+        Connection connection = null;
+        List<ObjectNode> results = new ArrayList<ObjectNode>();
+        try {
+            connection = DB.getConnection("default");
+            statement = connection.prepareStatement("SELECT user_id FROM users WHERE login = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+              connection.close();
+              return badRequest("Invalid username");
+            }
+            String receiverId = resultSet.getString("user_id");
+
+            statement = connection.prepareStatement("SELECT * FROM topics WHERE source_user_id = ?");
+            statement.setString(1, receiverId);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ObjectNode result = JsonNodeFactory.instance.objectNode();
+                result.put("id", resultSet.getInt("topic_id"));
+                result.put("name", resultSet.getString("name"));
+                results.add(result);
+            }
+
+        } catch(SQLException e) {
+            Logger.info(e.getMessage());
+        } finally {
+            connection.close();
+        }
+        return ok(Json.toJson(results));
+    }
+    
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result addTopic() throws SQLException {
+      JsonNode json = request().body().asJson();
+      String topicName = json.findPath("topicName").textValue();
+      String username = json.findPath("username").textValue();
+      Connection connection = null;
+      PreparedStatement statement = null;
+      try {
+        connection = DB.getConnection("default");
+        statement = connection.prepareStatement("SELECT user_id FROM users WHERE login = ?");
+        statement.setString(1, username);
+        ResultSet resultSet = statement.executeQuery();
+        if (!resultSet.next()) {
+            connection.close();
+            return badRequest("Invalid username");
+        }
+        String userId = resultSet.getString("user_id");
+        
+        statement = connection.prepareStatement("INSERT INTO `topics` (`topic_id`, `source_user_id`, `name`) VALUES (NULL, ?, ?)");
+        statement.setString(1, userId);
+        statement.setString(2, topicName);
+        if(statement.executeUpdate() > 0)
+            return ok("Success");
+        
+      }
+      catch(SQLException e) {
+          Logger.info(e.getMessage());
+      } finally {
+          connection.close();
+      }
+
+      return badRequest("error occured");
+    }
+    
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result deleteTopic() throws SQLException {
+      JsonNode json = request().body().asJson();
+      String topicName = json.findPath("topicName").textValue();
+      String username = json.findPath("username").textValue();
+      Connection connection = null;
+      PreparedStatement statement = null;
+      
+      try {
+        connection = DB.getConnection("default");
+        statement = connection.prepareStatement("SELECT user_id FROM users WHERE login = ?");
+        statement.setString(1, username);
+        ResultSet resultSet = statement.executeQuery();
+        if (!resultSet.next()) {
+            connection.close();
+            return badRequest("Invalid username");
+        }
+        String userId = resultSet.getString("user_id");
+        
+        statement = connection.prepareStatement("DELETE FROM topics WHERE source_user_id=? AND name=?");
+        statement.setString(1, userId);
+        statement.setString(2, topicName);
+        if(statement.executeUpdate() > 0)
+            return ok("Success");
+        
+      }
+      catch(SQLException e) {
+          Logger.info(e.getMessage());
+      } finally {
+          connection.close();
+      }
+
+      return badRequest("error occured");
+    }
+    
+    
     @BodyParser.Of(BodyParser.Json.class)
     public Result LogIn() throws SQLException {
       JsonNode json = request().body().asJson();

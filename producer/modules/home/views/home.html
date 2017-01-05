@@ -1,0 +1,22 @@
+<h1>Home</h1>
+<p>You're logged in!!</p>
+<p><a href="#/login">Logout</a></a></p>
+
+
+<div class = "row ng-scope" ng-init="getTopics()">
+	<div class = "col-xs-12 col-sm-12">
+		<label ng-repeat="topic in topics">
+			<button ng-disabled="!topicsSelected" ng-click="deleteTopic($index)" class="btn btn-danger">remove</button>
+			<input type = "checkbox" checklist-model = "topicsSelected" ng-checked="0" checklist-value = "topic.id"> {{topic.name}}
+		</label>
+	</div>
+
+		<div class = "col-xs-6 col-sm-12">
+			<form name="topicsFrm" ng-submit="addTopic()" >
+		     <input type="text" name="newTopic" ng-model="newTopic" required />
+		     <button ng-disabled="topicsFrm.$invalid" class="btn btn-danger">Add new topic</button>
+		  </form>
+			<br>
+		</div>
+</div>
+</div>
