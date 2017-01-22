@@ -2,7 +2,6 @@ package databaseConnection;
 
 import java.sql.*;
 
-import com.sun.istack.internal.NotNull;
 import services.Notification;
 
 
@@ -15,7 +14,7 @@ public class NotificationSaver extends INotificationSaver {
     }
 
     @Override
-    public void saveToDatabase(Notification notification, @NotNull String tableName) {
+    public void saveToDatabase(Notification notification, String tableName) {
         final String insertNotification = "INSERT INTO " + tableName +
             " ( timestamp, source_user_id, target_user_id," +
             " topic_id, priority, value, agg_type) " + values;
@@ -31,7 +30,7 @@ public class NotificationSaver extends INotificationSaver {
     }
 
     @Override
-    public boolean isAnyNotificationFromProducerInDataBase(Notification notification, @NotNull String tableName) {
+    public boolean isAnyNotificationFromProducerInDataBase(Notification notification, String tableName) {
         //TODO na podstawie jakich pol uznawac ze msg juz jest?
         final String select = "SELECT * FROM " + tableName + " WHERE " +
                 "source_user_id=" + notification.getSenderId() +
@@ -49,7 +48,7 @@ public class NotificationSaver extends INotificationSaver {
     }
 
     @Override
-    public void update(Notification notification, @NotNull String tableName) {
+    public void update(Notification notification, String tableName) {
         //TODO jakie pola updatowac?
         final String update = "UPDATE " + tableName +
                 " SET timestamp=\'" + notification.getTime().toString() + "\', " +
