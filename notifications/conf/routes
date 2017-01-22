@@ -13,9 +13,16 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 POST     /send                          controllers.HomeController.send
-
 GET 	/getmessage						controllers.HomeController.getMessage(username ?= null)
-GET     /gettopics                      controllers.HomeController.getTopics(username ?= null)
+
 POST 	/login							controllers.HomeController.LogIn
-POST 	/addtopic						controllers.HomeController.addTopic
-POST 	/deletetopic					controllers.HomeController.deleteTopic
+
+GET     /gettopics                      controllers.TopicsController.getTopics(username ?= null)
+GET     /subscribedtopics               controllers.TopicsController.getSubscribedTopics(producer ?= null, subscriber ?= null)
+GET     /notsubscribedtopics            controllers.TopicsController.getNotSubscribedTopics(producer ?= null, subscriber ?= null)
+GET     /producers                      controllers.TopicsController.getProducers
+
+POST    /subscribe                      controllers.TopicsController.subscribe
+POST    /unsubscribe                    controllers.TopicsController.unsubscribe
+POST 	/addtopic						controllers.TopicsController.addTopic
+POST 	/deletetopic					controllers.TopicsController.deleteTopic
