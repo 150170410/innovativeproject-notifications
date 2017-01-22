@@ -2,10 +2,12 @@
 
 angular.module('Authentication', []);
 angular.module('Home', ['checklist-model']);
+angular.module('Register', []);
 
 angular.module('Client', [
     'Authentication',
     'Home',
+    'Register',
     'ngRoute',
     'ngCookies'
 ])
@@ -23,6 +25,12 @@ angular.module('Client', [
             controller: 'HomeController',
             templateUrl: 'modules/home/views/home.html'
         })
+
+        .when('/register', {
+            controller: 'RegisterController',
+            templateUrl: 'modules/register/views/register.html',
+            hideMenus: true
+        })
  
         .otherwise({ redirectTo: '/login' });
 }])
@@ -35,7 +43,7 @@ angular.module('Client', [
         }
  
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
+            if (($location.path() !== '/login' && !$rootScope.globals.currentUser) && $location.path() !== '/register') {
                 $location.path('/login');
             }
         });

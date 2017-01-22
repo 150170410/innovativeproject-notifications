@@ -22,15 +22,16 @@ angular.module('Home')
     		
     	];
 
-    	$scope.notificationsSelected = [
+    	$scope.container = {};
+        $scope.container.notificationsSelected = [
             
         ];
 
     	$scope.checkAll = function() {
-    		$scope.notificationsSelected = $scope.notifications.map(function(item) { return item.id; });
+    		$scope.container.notificationsSelected = $scope.notifications.map(function(item) { return item.id; });
     	};
 
     	$scope.uncheckAll = function() {
-    		$scope.notificationsSelected = [];
+    		$scope.container.notificationsSelected = [];
     	};
     }]);

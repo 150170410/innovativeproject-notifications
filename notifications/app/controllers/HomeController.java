@@ -224,4 +224,38 @@ public class HomeController extends Controller {
 
       return badRequest("Invalid username or password");
     }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result RegisterClient() throws SQLException {
+      JsonNode json = request().body().asJson();
+      String username = json.findPath("username").textValue();
+      String password = json.findPath("password").textValue();
+      String email = json.findPath("email").textValue();
+      Connection connection = null;
+      PreparedStatement stmt = null;
+      try {
+        connection = DB.getConnection("default");
+        stmt = connection.prepareStatement("SELECT login FROM users WHERE login=? || mail=?");
+        stmt.setString(1, username);
+        stmt.setString(2, email);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+          return badRequest("Username or email already exists.");
+        }
+        stmt = connection.prepareStatement("INSERT INTO users(login, pass, mail, role) VALUES(?, ?, ?, 'U')");
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+        stmt.setString(3, email);
+        if (stmt.executeUpdate() > 0)
+          return ok("Success");
+        else
+          return badRequest("Something went wrong.");
+      } catch (SQLException e) {
+        Logger.info(e.getMessage());
+      } finally {
+        connection.close();
+      }
+
+      return badRequest("Try again later.");
+    }
 }

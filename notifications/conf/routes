@@ -19,3 +19,4 @@ GET     /gettopics                      controllers.HomeController.getTopics(use
 POST 	/login							controllers.HomeController.LogIn
 POST 	/addtopic						controllers.HomeController.addTopic
 POST 	/deletetopic					controllers.HomeController.deleteTopic
+POST	/registerclient					controllers.HomeController.RegisterClient
