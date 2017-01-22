@@ -1,0 +1,38 @@
+<h1>Home</h1>
+<p>You're logged in!!</p>
+<p><a href="#/login">Logout</a></a></p>
+
+
+<div class = "row ng-scope" ng-init="getProducers()">
+	<div class = "col-xs-12 col-sm-12">
+		<label ng-repeat="producer in producers">
+
+			<h2> {{producer.name}}: </h2>
+
+
+			<div ng-init="getSubscribedTopics(producer)"> 
+
+				<label ng-repeat="topic in producer.subscribedTopics">
+					<button ng-click="unsubscribe(producer, topic, $index)" class="btn btn-success">Unsubscribe</button> {{topic.name}}
+				</label>
+
+			</div>
+			<br>
+
+			<div ng-init="getNotSubscribedTopics(producer)"> 
+
+				<label ng-repeat="topic in producer.notSubscribedTopics">
+					<button ng-click="subscribe(producer, topic, $index)" class="btn btn-danger"> &nbsp  Subscribe  &nbsp </button> {{topic.name}}
+				</label>
+
+			</div>
+
+			<br>
+
+
+		</label>
+	</div>
+
+
+</div>
+</div>
