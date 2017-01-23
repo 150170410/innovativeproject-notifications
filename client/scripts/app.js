@@ -3,11 +3,15 @@
 angular.module('Authentication', []);
 angular.module('Home', ['checklist-model']);
 angular.module('Register', []);
+angular.module('Producer', []);
+angular.module('Subscriber', []);
 
 angular.module('Client', [
     'Authentication',
     'Home',
     'Register',
+    'Producer',
+    'Subscriber',
     'ngRoute',
     'ngCookies'
 ])
@@ -30,6 +34,16 @@ angular.module('Client', [
             controller: 'RegisterController',
             templateUrl: 'modules/register/views/register.html',
             hideMenus: true
+        })
+
+        .when('/producer', {
+            controller: 'ProducerController',
+            templateUrl: 'modules/producer/views/producer.html',
+        })
+
+        .when('/subscriber', {
+            controller: 'SubscriberController',
+            templateUrl: 'modules/subscriber/views/subscriber.html'
         })
  
         .otherwise({ redirectTo: '/login' });

@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('Home')
+angular.module('Producer')
 
-.controller('HomeController',
-    ['$scope', 'HomeService',
-    function ($scope, HomeService) {
+.controller('ProducerController',
+    ['$scope', 'ProducerService',
+    function ($scope, ProducerService) {
 
     	$scope.getTopics = function() {
-    		HomeService.getTopics(function(response) {
+    		ProducerService.getTopics(function(response) {
                 $scope.topics = [];
                 for (var i = 0; i < response.length; ++i)
                 {
@@ -25,7 +25,7 @@ angular.module('Home')
       $scope.addTopic = function() {
         var notif = { id: 0, name: $scope.newTopic };
   		  $scope.topics.push(notif);
-        HomeService.addTopic($scope.newTopic, function(response) {
+        ProducerService.addTopic($scope.newTopic, function(response) {
   				if (response == "Success") {
   					$scope.newTopic = ''
   				} else {
@@ -37,7 +37,7 @@ angular.module('Home')
   		}
 
   		$scope.deleteTopic= function(index) {
-        HomeService.deleteTopic($scope.topics[index].name, function(response) {
+        ProducerService.deleteTopic($scope.topics[index].name, function(response) {
   				if (response == "Success") {
   					$scope.newTopic = ''
   				} else {

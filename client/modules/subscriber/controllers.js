@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('Home')
+angular.module('Subscriber')
 
-.controller('HomeController',
-    ['$scope', 'HomeService',
-    function ($scope, HomeService) {
+.controller('SubscriberController',
+    ['$scope', 'SubscriberService',
+    function ($scope, SubscriberService) {
 
     	$scope.getProducers = function() {
-    		HomeService.getProducers(function(response) {
+    		SubscriberService.getProducers(function(response) {
                 $scope.producers = [];
                 for (var i = 0; i < response.length; ++i)
                 {
@@ -24,7 +24,7 @@ angular.module('Home')
 
 
     	$scope.getTopics = function(producer) {
-    		HomeService.getTopics(producer.name, function(response) {
+    		SubscriberService.getTopics(producer.name, function(response) {
                 for (var i = 0; i < response.length; ++i)
                 {
                     var topic = { id: response[i].id, name: response[i].name };
@@ -34,7 +34,7 @@ angular.module('Home')
     	};
 
     	$scope.getSubscribedTopics = function(producer) {
-    		HomeService.getSubscribedTopics(producer.name, function(response) {
+    		SubscriberService.getSubscribedTopics(producer.name, function(response) {
                 for (var i = 0; i < response.length; ++i)
                 {
                     var topic = { id: response[i].id, name: response[i].name };
@@ -44,7 +44,7 @@ angular.module('Home')
     	};
 
     	$scope.getNotSubscribedTopics = function(producer) {
-    		HomeService.getNotSubscribedTopics(producer.name, function(response) {
+    		SubscriberService.getNotSubscribedTopics(producer.name, function(response) {
                 for (var i = 0; i < response.length; ++i)
                 {
                     var topic = { id: response[i].id, name: response[i].name };

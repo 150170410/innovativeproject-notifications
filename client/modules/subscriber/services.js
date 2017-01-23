@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('Home')
+angular.module('Subscriber')
 
-.factory('HomeService',
+.factory('SubscriberService',
 	['$http', '$rootScope', '$cookieStore',
 	function ($http, $rootScope, $cookieStore) {
 		var service = {};
