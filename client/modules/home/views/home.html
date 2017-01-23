@@ -7,18 +7,8 @@
 <div class = "row ng-scope">
 	<div class = "col-xs-12 col-sm-6">
 		<label ng-repeat="message in notifications"> 
-			<input type = "checkbox" checklist-model = "container.notificationsSelected" checklist-value = "message.id"> {{message.message}}
+			<button ng-click="setAsRead(message)" class="glyphicon glyphicon-ok"></button>
+			 {{message.message}}
 		</label>
-	</div>
-	<div class = "col-xs-12 col-sm-6">
-		<div class =".col-xs-6 .col-md-4">
-			<button ng-click="getMessage()" class="btn btn-danger">Get Message</button>
-		</div>
-		<div class =".col-xs-6 .col-md-4">
-			<button ng-click="checkAll()" class="btn btn-danger">Check All</button>
-		</div>
-		<div class =".col-xs-6 .col-md-4">
-			<button ng-click="uncheckAll()" class="btn btn-danger">Uncheck All</button>
-		</div>
 	</div>
 </div>

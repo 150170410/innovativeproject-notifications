@@ -17,6 +17,15 @@ angular.module('Home')
 				});
 		};
 
+		service.SetAsRead = function(id, callback) {
+			$rootScope.globals = $cookieStore.get('globals') || {};
+
+			$http.post('http://localhost:9000/removemessage', { username: $rootScope.globals.currentUser.username, id: id })
+                .success(function (response) {
+                    callback(response);
+                });
+		};
+
 		return service;
 
 	}]); 

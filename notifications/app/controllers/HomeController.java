@@ -197,6 +197,39 @@ public class HomeController extends Controller {
       return badRequest("error occured");
     }
     
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result removeMessage() throws SQLException {
+      JsonNode json = request().body().asJson();
+      String username = json.findPath("username").textValue();
+      int id = json.findPath("id").intValue();
+      Connection connection = null;
+      PreparedStatement stmt = null;
+      try {
+        connection = DB.getConnection("default");
+        stmt = connection.prepareStatement("SELECT user_id FROM users WHERE login=?");
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+        String userId;
+        if (rs.next()) {
+            userId = rs.getString("user_id");
+        } else {
+          return badRequest("Invalid credentials");
+        }
+
+        stmt = connection.prepareStatement("DELETE FROM messages WHERE msg_id = ? AND target_user_id = ?");
+        stmt.setInt(1, id);
+        stmt.setString(2, userId);
+        if (stmt.executeUpdate() > 0)
+          return ok("Success");
+        else
+          return badRequest("Something went wrong.");
+      } catch (SQLException e) {
+        Logger.info(e.getMessage());
+      } finally {
+        connection.close();
+      }
+      return badRequest("Try again later.");
+    }
     
     @BodyParser.Of(BodyParser.Json.class)
     public Result LogIn() throws SQLException {
