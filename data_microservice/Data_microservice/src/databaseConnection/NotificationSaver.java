@@ -64,11 +64,27 @@ public class NotificationSaver extends INotificationSaver {
         }
     }
 
+    private int getTopicId(String topic) {
+        final String select = "SELECT * FROM topics WHERE name=" + topic;
+        try {
+            Statement statement = connection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(select);
+            if (result.next()) {
+                return result.getInt("topic_id");
+            }
+            System.err.println("Not found: " + topic);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     private void setNotificationOnStatement(Notification notification, PreparedStatement statement) throws SQLException {
         statement.setTimestamp(1, notification.getTime());
         statement.setInt(2, notification.getSenderId());
         statement.setInt(3, notification.getReceivers());
-        statement.setInt(4, notification.getReceivers()); //TODO topicId
+        statement.setInt(4, getTopicId(notification.getTag()));
         statement.setInt(5, notification.getPriority());
         statement.setString(6, notification.getMessage());
         statement.setInt(7, notification.getAggregationType());
