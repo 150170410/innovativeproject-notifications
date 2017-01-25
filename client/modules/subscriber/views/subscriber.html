@@ -6,7 +6,8 @@
 
 <div class = "row ng-scope" ng-init="getProducers()">
 	<div class = "col-xs-12 col-sm-12">
-		<label ng-repeat="producer in producers">
+		<label>Search: <input ng-model="searchText"></label>
+		<label ng-repeat="producer in producers | filter:searchText">
 
 			<h2> {{producer.name}}: </h2>
 
