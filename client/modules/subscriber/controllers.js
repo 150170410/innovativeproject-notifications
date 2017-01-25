@@ -55,7 +55,7 @@ angular.module('Subscriber')
 
 
      	$scope.subscribe = function(producer, topic, index) {
-        	HomeService.subscribe(topic.name, function(response) {
+        	SubscriberService.subscribe(topic.name, function(response) {
   				if (response == "Success") {
   					producer.subscribedTopics.push(topic);
   					producer.notSubscribedTopics.splice(index, 1);
@@ -67,7 +67,7 @@ angular.module('Subscriber')
   		}
 
      	$scope.unsubscribe = function(producer, topic, index) {
-        	HomeService.unsubscribe(topic.name, function(response) {
+        	SubscriberService.unsubscribe(topic.name, function(response) {
   				if (response == "Success") {
   					producer.notSubscribedTopics.push(topic);
   					producer.subscribedTopics.splice(index, 1);
@@ -77,4 +77,10 @@ angular.module('Subscriber')
   				}
   			});
   		}
+
+      var getUsername = function() {
+            return SubscriberService.GetUsername();
+        };
+
+        $scope.username = getUsername();
     }]);

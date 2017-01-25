@@ -47,4 +47,10 @@ angular.module('Producer')
   			});
   			$scope.topics.splice(index, 1);
   		}
+
+      var getUsername = function() {
+            return ProducerService.GetUsername();
+      };
+
+      $scope.username = getUsername();
     }]);

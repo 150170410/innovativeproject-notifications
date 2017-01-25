@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Authentication', []);
-angular.module('Home', ['checklist-model']);
+angular.module('Home', []);
 angular.module('Register', []);
 angular.module('Producer', []);
 angular.module('Subscriber', []);

@@ -7,6 +7,11 @@ angular.module('Producer')
 	function ($http, $rootScope, $cookieStore) {
 		var service = {};
 
+		service.GetUsername = function() {
+			$rootScope.globals = $cookieStore.get('globals') || {};
+			return $rootScope.globals.currentUser.username;
+		};
+
 		service.getTopics = function(callback) {
 
 			$rootScope.globals = $cookieStore.get('globals') || {};

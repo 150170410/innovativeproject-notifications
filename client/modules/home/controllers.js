@@ -42,4 +42,10 @@ angular.module('Home')
             });
         };
 
+        var getUsername = function() {
+            return HomeService.GetUsername();
+        };
+
+        $scope.username = getUsername();
+
     }]);
