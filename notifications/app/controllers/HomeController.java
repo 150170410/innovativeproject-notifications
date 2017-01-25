@@ -84,9 +84,9 @@ public class HomeController extends Controller {
                 ResultSet set = stmt.executeQuery();
                 while (set.next()) {
                   ObjectNode result = JsonNodeFactory.instance.objectNode();
-                  result.put("id", rs.getInt("msg_id"));
-                  result.put("message", rs.getString("value"));
-                  String sourceID = rs.getString("source_user_id"); 
+                  result.put("id", set.getInt("msg_id"));
+                  result.put("message", set.getString("value"));
+                  String sourceID = set.getString("source_user_id"); 
                   stmt = connection.prepareStatement("SELECT login FROM users WHERE user_id = ?");
                   stmt.setString(1, sourceID);
                   ResultSet set2 = stmt.executeQuery();
