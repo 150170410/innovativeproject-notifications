@@ -113,7 +113,7 @@ public class HomeController extends Controller {
       PreparedStatement stmt = null;
       try {
         connection = DB.getConnection("default");
-        stmt = connection.prepareStatement("SELECT user_id FROM users WHERE login=?");
+      /*  stmt = connection.prepareStatement("SELECT user_id FROM users WHERE login=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
         String userId;
@@ -121,11 +121,10 @@ public class HomeController extends Controller {
             userId = rs.getString("user_id");
         } else {
           return badRequest("Invalid credentials");
-        }
+        }*/
 
-        stmt = connection.prepareStatement("DELETE FROM messages WHERE msg_id = ? AND target_user_id = ?");
+        stmt = connection.prepareStatement("DELETE FROM messages WHERE msg_id = ?");
         stmt.setInt(1, id);
-        stmt.setString(2, userId);
         if (stmt.executeUpdate() > 0)
           return ok("Success");
         else
@@ -156,11 +155,16 @@ public class HomeController extends Controller {
           return badRequest("Invalid credentials");
         }
 
-        stmt = connection.prepareStatement("DELETE FROM messages WHERE target_user_id = ?");
+        stmt = connection.prepareStatement("SELECT topic_id FROM subscriptions WHERE target_user_id=?");
         stmt.setString(1, userID);
-        if (stmt.executeUpdate() > 0)
-          return ok("Success");
-        else return badRequest("Something went wrong.");
+        rs = stmt.executeQuery();
+        while (rs.next()) {
+          String topicID = rs.getString("topic_id");
+          stmt = connection.prepareStatement("DELETE FROM messages WHERE topic_id = ?");
+          stmt.setString(1, topicID);
+          stmt.executeUpdate();
+        } 
+        return ok("Success");
       } catch (SQLException e) {
         Logger.info(e.getMessage());
       } finally {
