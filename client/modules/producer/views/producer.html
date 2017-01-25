@@ -7,8 +7,8 @@
 <div class = "row ng-scope" ng-init="getTopics()">
 	<div class = "col-xs-12 col-sm-12">
 		<label ng-repeat="topic in topics">
-			<button ng-disabled="!topicsSelected" ng-click="deleteTopic($index)" class="btn btn-danger">remove</button>
-			<input type = "checkbox" checklist-model = "topicsSelected" ng-checked="0" checklist-value = "topic.id"> {{topic.name}}
+			<button ng-click="deleteTopic($index)" class="btn btn-danger">remove</button>
+			{{topic.name}}
 		</label>
 	</div>
 

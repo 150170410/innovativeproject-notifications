@@ -34,6 +34,7 @@ angular.module('Subscriber')
     	};
 
     	$scope.getSubscribedTopics = function(producer) {
+        producer.subscribedTopics =  [];
     		SubscriberService.getSubscribedTopics(producer.name, function(response) {
                 for (var i = 0; i < response.length; ++i)
                 {
@@ -44,6 +45,7 @@ angular.module('Subscriber')
     	};
 
     	$scope.getNotSubscribedTopics = function(producer) {
+        producer.notSubscribedTopics = [];
     		SubscriberService.getNotSubscribedTopics(producer.name, function(response) {
                 for (var i = 0; i < response.length; ++i)
                 {
