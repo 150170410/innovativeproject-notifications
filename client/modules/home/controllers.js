@@ -11,7 +11,7 @@ angular.module('Home')
                 $scope.notifications = [];
                 for (var i = 0; i < response.length; ++i)
                 {
-                    var notif = { id: response[i].id, message: response[i].message };
+                    var notif = { id: response[i].id, message: response[i].message, source: response[i].sourceName};
                     $scope.notifications.push(notif);
                 }
                 timer = $timeout(getMessage, 5000);

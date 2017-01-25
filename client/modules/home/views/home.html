@@ -16,7 +16,7 @@
 		</div>
 		<label ng-repeat="message in notifications"> 
 			<button ng-click="setAsRead(message)" class="glyphicon glyphicon-ok"></button>
-			 {{message.message}}
+			 {{message.message}} from {{message.source}}
 		</label>
 	</div>
 </div>
