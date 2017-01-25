@@ -20,7 +20,7 @@ public class Start {
     
         while(true){
             try{
-                Thread.sleep(100);
+                Thread.sleep(10);
                 notification = des.getNotifiObj();
                 if(notification == null)
                     continue;
