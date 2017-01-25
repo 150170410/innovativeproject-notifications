@@ -11,20 +11,20 @@ public class Start {
             test();
             return;
         }
-    
-        Deserialization des = new Deserialization("nokia");
+
         DBConnection connection = new DBConnection("127.0.0.1:3306/notifications", "root", "root");
         NotificationSaver sender = new NotificationSaver(connection);
         Aggregation aggregation = new Aggregation(sender);
+        Deserialization des = new Deserialization("nokia", aggregation);
         Notification notification;
     
         while(true){
             try{
-                //Thread.sleep(5000);
+                Thread.sleep(100);
                 notification = des.getNotifiObj();
                 if(notification == null)
                     continue;
-                aggregation.run(notification);
+//                aggregation.run(notification);
                 System.out.println(notification.getMessage());
             } catch (NullPointerException ex){
                 ex.printStackTrace();
