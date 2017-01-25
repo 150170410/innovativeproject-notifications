@@ -31,10 +31,9 @@ public class NotificationSaver extends INotificationSaver {
 
     @Override
     public boolean isAnyNotificationFromProducerInDataBase(Notification notification, String tableName) {
-        //TODO na podstawie jakich pol uznawac ze msg juz jest?
         final String select = "SELECT * FROM " + tableName + " WHERE " +
                 "source_user_id=" + notification.getSenderId() +
-                " AND target_user_id=" + notification.getReceivers() +
+                " AND topic_id=" + getTopicId(notification.getTag()) +
                 " AND agg_type=" + notification.getAggregationType();
         try {
             Statement statement = connection.getConnection().createStatement();
@@ -49,12 +48,11 @@ public class NotificationSaver extends INotificationSaver {
 
     @Override
     public void update(Notification notification, String tableName) {
-        //TODO jakie pola updatowac?
         final String update = "UPDATE " + tableName +
                 " SET timestamp=\'" + notification.getTime().toString() + "\', " +
                 " value=\'" + notification.getMessage() + "\' " +
                 " WHERE source_user_id=" + notification.getSenderId() +
-                " AND target_user_id=" + notification.getReceivers() +
+                " AND topic_id=" + getTopicId(notification.getTag()) +
                 " AND agg_type=" + notification.getAggregationType();
         try {
             Statement statement = connection.getConnection().createStatement();
