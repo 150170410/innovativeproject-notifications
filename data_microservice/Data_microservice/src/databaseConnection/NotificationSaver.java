@@ -65,7 +65,7 @@ public class NotificationSaver extends INotificationSaver {
     }
 
     private int getTopicId(String topic) {
-        final String select = "SELECT * FROM topics WHERE name=" + topic;
+        final String select = "SELECT * FROM topics WHERE name='" + topic + "'";
         try {
             Statement statement = connection.getConnection().createStatement();
             ResultSet result = statement.executeQuery(select);
