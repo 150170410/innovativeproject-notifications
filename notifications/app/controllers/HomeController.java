@@ -74,14 +74,20 @@ public class HomeController extends Controller {
             }
             String receiverId = rs.getString("user_id");
 
-            stmt = connection.prepareStatement("SELECT * FROM messages WHERE target_user_id = ?");
+            stmt = connection.prepareStatement("SELECT * FROM subscriptions WHERE target_user_id = ?");
             stmt.setString(1, receiverId);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                ObjectNode result = JsonNodeFactory.instance.objectNode();
-                result.put("id", rs.getInt("msg_id"));
-                result.put("message", rs.getString("value"));
-                results.add(result);
+                int topicID = rs.getInt("topic_id");
+                stmt = connection.prepareStatement("SELECT * FROM messages WHERE topic_id = ?");
+                stmt.setString(1, receiverId);
+                ResultSet set = stmt.executeQuery();
+                while (set.next()) {
+                  ObjectNode result = JsonNodeFactory.instance.objectNode();
+                  result.put("id", rs.getInt("msg_id"));
+                  result.put("message", rs.getString("value"));
+                  results.add(result);
+                }
             }
 
         } catch(SQLException e) {
