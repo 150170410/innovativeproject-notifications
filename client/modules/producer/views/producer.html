@@ -1,8 +1,10 @@
 <h1>Producer view</h1>
 <p>You're logged in as {{username}}!!</p>
 <p><a href="#/login">Logout</a></a></p>
-<p><a href="#/">ClientView</a></a></p>
-<p><a href="#/subscriber">Subscriber View</a></a></p>
+<div class = "btn-group" role = "group">
+	<a href="#/"><button type = "button" class = "btn btn-info">Client View</button></a>
+	<a href="#/subscriber"><button type = "button" class = "btn btn-info">Subscriber View</button></a>
+</div>
 
 <div class = "row ng-scope" ng-init="getTopics()">
 	<div class = "col-xs-12 col-sm-12">

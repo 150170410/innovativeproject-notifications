@@ -1,8 +1,11 @@
 <h1>Subscriber view</h1>
 <p>You're logged in as {{username}}!!</p>
 <p><a href="#/login">Logout</a></a></p>
-<p><a href="#/">ClientView</a></a></p>
-<p><a href="#/producer">Producer View</a></a></p>
+
+<div class = "btn-group" role = "group">
+	<a href="#/producer"><button type = "button" class = "btn btn-info">Producer View</button></a>
+	<a href="#/"><button type = "button" class = "btn btn-info">Client View</button></a>
+</div>
 
 <div class = "row ng-scope" ng-init="getProducers()">
 	<div class = "col-xs-12 col-sm-12">
