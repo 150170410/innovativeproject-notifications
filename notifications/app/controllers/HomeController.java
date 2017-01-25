@@ -32,11 +32,12 @@ public class HomeController extends Controller {
         int receiverId = json.findPath("receiverId").intValue();
         int senderId = json.findPath("senderId").intValue();
         int priority = json.findPath("priority").intValue();
+        int aggregationType = json.findPath("aggregationType").intValue();
 
         if(tag == null || message == null) {
             return badRequest("Missing parameter");
         } else {
-            Notification notification = new Notification(toGroup, senderId, receiverId, tag, priority, message);
+            Notification notification = new Notification(toGroup, senderId, receiverId, tag, priority, message, aggregationType);
             SendToRabbit.send(notification);
             return ok("\nTime " + notification.getTime() + " msg: " + message);
         }
