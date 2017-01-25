@@ -59,7 +59,6 @@ public class HomeController extends Controller {
     }*/
 
     public Result getMessage(String username) throws SQLException {
-        System.out.println("get message");
         PreparedStatement stmt = null;
         Connection connection = null;
         List<ObjectNode> results = new ArrayList<ObjectNode>();
@@ -223,6 +222,37 @@ public class HomeController extends Controller {
           return ok("Success");
         else
           return badRequest("Something went wrong.");
+      } catch (SQLException e) {
+        Logger.info(e.getMessage());
+      } finally {
+        connection.close();
+      }
+      return badRequest("Try again later.");
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result removeAllMessages() throws SQLException {
+      JsonNode json = request().body().asJson();
+      String username = json.findPath("username").textValue();
+      Connection connection = null;
+      PreparedStatement stmt = null;
+      try {
+        connection = DB.getConnection("default");
+        stmt = connection.prepareStatement("SELECT user_id FROM users WHERE login=?");
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+        String userID;
+        if (rs.next()) {
+          userID = rs.getString("user_id");
+        } else {
+          return badRequest("Invalid credentials");
+        }
+
+        stmt = connection.prepareStatement("DELETE FROM messages WHERE target_user_id = ?");
+        stmt.setString(1, userID);
+        if (stmt.executeUpdate() > 0)
+          return ok("Success");
+        else return badRequest("Something went wrong.");
       } catch (SQLException e) {
         Logger.info(e.getMessage());
       } finally {

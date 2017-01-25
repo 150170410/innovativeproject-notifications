@@ -35,4 +35,11 @@ angular.module('Home')
             });
         };
 
+        $scope.setAllAsRead = function() {
+            HomeService.SetAllAsRead(function(response) {
+                $timeout.cancel(timer);
+                getMessage();
+            });
+        };
+
     }]);

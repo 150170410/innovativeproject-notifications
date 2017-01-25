@@ -6,6 +6,12 @@
 
 <div class = "row ng-scope">
 	<div class = "col-xs-12 col-sm-6">
+		<div ng-if="notifications.length > 0">
+			<button ng-click = "setAllAsRead()" class = "glyphicon glyphicon-remove"></button>
+		</div>
+		<div ng-if="notifications.length == 0">
+			No new messages.
+		</div>
 		<label ng-repeat="message in notifications"> 
 			<button ng-click="setAsRead(message)" class="glyphicon glyphicon-ok"></button>
 			 {{message.message}}

@@ -11,7 +11,7 @@ angular.module('Home')
 
 			$rootScope.globals = $cookieStore.get('globals') || {};
 
-			$http.get('http://localhost:9000/getmessage?username=' + $rootScope.globals.currentUser.username)
+			$http.get('http://localhost:9000/message?username=' + $rootScope.globals.currentUser.username)
 				.success(function(response) {
 					callback(response);
 				});
@@ -24,6 +24,15 @@ angular.module('Home')
                 .success(function (response) {
                     callback(response);
                 });
+		};
+
+		service.SetAllAsRead = function(callback) {
+			$rootScope.globals = $cookieStore.get('globals') || {};
+
+			$http.post('http://localhost:9000/removeallmessages', { username: $rootScope.globals.currentUser.username })
+				.success(function (response) {
+					callback(response);
+				});
 		};
 
 		return service;
