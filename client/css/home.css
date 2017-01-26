@@ -1,7 +1,61 @@
-label {
-	display: block;
-} 
+body{
+	margin: auto;
+	max-width: 900px;
+	background-color: #555555;
+}
 
-.btn {
+label {
+	margin-top: 10px;
+	display: block;
+}
+.jumbotron{
+	min-height: 1000px;
+}
+.top-container{
+
+	padding-bottom: 200px;
+	margin-top: -30px;
+}
+
+.top-container h1{
+	font-size: 4em;
+}
+
+.uphead{
+	float:left;
+}
+.buttonPanel{
+	padding-top: 30px;
+	float: right;
+}
+
+.btn{
+	font-size: 1.2em;
+	width: 150px;
 	margin-bottom: 10px;
+}
+
+#topics-container{
+	font-size: 1.5em;
+}
+
+#topics-container button{
+	width: 5em;
+	font-size: 1em;
+	height: 2em;
+}
+
+#subscriptions-container{
+	font-size: 1.5em;
+}
+
+#subscriptions-container button{
+	width: 9em;
+	font-size: 1em;
+	height: 2em;
+}
+
+#topic-input{
+	height: 2em;
+	font-size: 1em;
 }

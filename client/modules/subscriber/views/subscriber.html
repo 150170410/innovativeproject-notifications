@@ -1,16 +1,19 @@
-<h1>Subscriber view</h1>
-<p>You're logged in as {{username}}!!</p>
-<p><a href="#/login">Logout</a></a></p>
-
-<div class = "btn-group" role = "group">
-	<a href="#/producer"><button type = "button" class = "btn btn-info">Producer View</button></a>
-	<a href="#/"><button type = "button" class = "btn btn-info">Client View</button></a>
+<div class="top-container">
+	<div class = "uphead">
+		<h1>SUBSCRIBER</h1>
+		<h2>{{username}}</h2>
+	</div>
+	<div class="buttonPanel">
+		<a href="#/login"><button type = "button" class = "btn btn-info">Logout</button></a><br>
+		<a href="#/producer"><button type = "button" class = "btn btn-info">Producer Panel</button></a><br>
+		<a href="#/"><button type = "button" class = "btn btn-info">User Panel</button></a><br>
+	</div>
 </div>
-
 <div class = "row ng-scope" ng-init="getProducers()">
 	<div class = "col-xs-12 col-sm-12">
+
 		<label>Search: <input ng-model="searchText"></label>
-		<label ng-repeat="producer in producers | filter:searchText">
+		<label id="subscriptions-container" ng-repeat="producer in producers | filter:searchText">
 
 			<h2> {{producer.name}}: </h2>
 
@@ -18,7 +21,7 @@
 			<div ng-init="getSubscribedTopics(producer)"> 
 
 				<label ng-repeat="topic in producer.subscribedTopics">
-					<button ng-click="unsubscribe(producer, topic, $index)" class="btn btn-success">Unsubscribe</button> {{topic.name}}
+					<button ng-click="unsubscribe(producer, topic, $index)" class="btn btn-success">Subscribed</button> {{topic.name}}
 				</label>
 
 			</div>
@@ -27,7 +30,7 @@
 			<div ng-init="getNotSubscribedTopics(producer)"> 
 
 				<label ng-repeat="topic in producer.notSubscribedTopics">
-					<button ng-click="subscribe(producer, topic, $index)" class="btn btn-danger"> &nbsp  Subscribe  &nbsp </button> {{topic.name}}
+					<button ng-click="subscribe(producer, topic, $index)" class="btn btn-danger">   Not Subscribed </button> {{topic.name}}
 				</label>
 
 			</div>
