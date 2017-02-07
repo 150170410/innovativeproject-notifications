@@ -1,9 +1,10 @@
 # innovativeproject-notifications
-Generic, cross application, user notification system
+##Generic, cross application, user notification system##
 
 Web application that stores messages from varius producers and shows to user in easy way.
 
-Technologies used in project:
+
+##Technologies used in project:##
 
 Java
 Play
@@ -13,7 +14,7 @@ RabbitMQ
 Bootstrap
 MySQL
 
-Features
+##Features:##
 
 Users registration with password and email  
 Users and producers logging in
@@ -23,7 +24,7 @@ Producers creates topics
 Users can subscribe and unsubscribe topics
 Users can sign messages as readed
 
-About us
+###About us:###
 
 Students in the faculty of Fundamental Problems of Technology at Wrocław University of Technology
 
